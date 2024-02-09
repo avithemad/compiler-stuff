@@ -1,0 +1,146 @@
+Nonterminals useless in grammar
+
+    operation
+
+
+Terminals unused in grammar
+
+    PLUS
+    MINUS
+    TIMES
+    DIVIDE
+    LAMDA
+    LPAREN
+    RPAREN
+    LCURL
+    RCURL
+    IFTOKEN
+    ELSETOKEN
+    THENTOKEN
+
+
+Rules useless in grammar
+
+    6 operation: PLUS
+    7          | MINUS
+    8          | DIVIDE
+    9          | TIMES
+
+
+Grammar
+
+    0 $accept: term $end
+
+    1 term: term APPLY term
+    2     | IDENTIFIER
+    3     | TRUE
+    4     | FALSE
+    5     | NUMBER
+
+
+Terminals, with rules where they appear
+
+    $end (0) 0
+    error (256)
+    NUMBER (258) 5
+    PLUS (259)
+    MINUS (260)
+    TIMES (261)
+    DIVIDE (262)
+    LAMDA (263)
+    LPAREN (264)
+    RPAREN (265)
+    LCURL (266)
+    RCURL (267)
+    TRUE (268) 3
+    FALSE (269) 4
+    IDENTIFIER (270) 2
+    APPLY (271) 1
+    IFTOKEN (272)
+    ELSETOKEN (273)
+    THENTOKEN (274)
+
+
+Nonterminals, with rules where they appear
+
+    $accept (20)
+        on left: 0
+    term (21)
+        on left: 1 2 3 4 5
+        on right: 0 1
+
+
+State 0
+
+    0 $accept: . term $end
+
+    NUMBER      shift, and go to state 1
+    TRUE        shift, and go to state 2
+    FALSE       shift, and go to state 3
+    IDENTIFIER  shift, and go to state 4
+
+    term  go to state 5
+
+
+State 1
+
+    5 term: NUMBER .
+
+    $default  reduce using rule 5 (term)
+
+
+State 2
+
+    3 term: TRUE .
+
+    $default  reduce using rule 3 (term)
+
+
+State 3
+
+    4 term: FALSE .
+
+    $default  reduce using rule 4 (term)
+
+
+State 4
+
+    2 term: IDENTIFIER .
+
+    $default  reduce using rule 2 (term)
+
+
+State 5
+
+    0 $accept: term . $end
+    1 term: term . APPLY term
+
+    $end   shift, and go to state 6
+    APPLY  shift, and go to state 7
+
+
+State 6
+
+    0 $accept: term $end .
+
+    $default  accept
+
+
+State 7
+
+    1 term: term APPLY . term
+
+    NUMBER      shift, and go to state 1
+    TRUE        shift, and go to state 2
+    FALSE       shift, and go to state 3
+    IDENTIFIER  shift, and go to state 4
+
+    term  go to state 8
+
+
+State 8
+
+    1 term: term . APPLY term
+    1     | term APPLY term .
+
+    $default  reduce using rule 1 (term)
